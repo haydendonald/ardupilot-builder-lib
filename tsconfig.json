@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "commonjs",
+        "declaration": true,
+        "outDir": "./dist",
+        "strict": true,
+        "esModuleInterop": true
+    },
+    "include": [
+        "examples/*",
+        "index.ts",
+        "types/*",
+        "boardBuilder.ts",
+        "multiBuilder.ts",
+        "process.ts",
+        "utility.ts"
+    ]
+}

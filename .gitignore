@@ -1,0 +1,9 @@
+node_modules/
+dist/
+repos/
+build/
+ardupilot/
+output/
+.python_version
+.vscode/
+mav.*

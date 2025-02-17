@@ -1,0 +1,35 @@
+{
+  "name": "ardupilot-builder-lib",
+  "version": "1.0.0",
+  "description": "A nodejs wrapper for building ArduPilot firmware using the waf tool",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "examples:multipleBoardTypes": "node ./dist/examples/multipleBoardTypes.js",
+    "examples:lua": "node ./dist/examples/lua.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haydendonald/ArduPilot-FW-Builder.git"
+  },
+  "keywords": [
+    "ardupilot",
+    "firmware",
+    "builder",
+    "waf",
+    "nodejs",
+    "multiple",
+    "mutibuilder"
+  ],
+  "author": "Hayden Donald",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/haydendonald/ArduPilot-FW-Builder/issues"
+  },
+  "homepage": "https://github.com/haydendonald/ArduPilot-FW-Builder#readme",
+  "devDependencies": {
+    "@types/node": "^20.6.3",
+    "typescript": "^5.2.2"
+  }
+}
