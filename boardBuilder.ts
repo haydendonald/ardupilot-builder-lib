@@ -51,9 +51,48 @@ export class BoardBuilder extends EventEmitter {
     buildSuccess?: boolean;
     buildError?: string;
 
-    constructor(buildFor: Build, args?: BuildArguments) {
+    /**
+     * Constructor
+     * @param buildFor What board to build for
+     * @param args The build arguments
+     * @param useConsole Should we send our log statements out to the console. Default is verbose
+     */
+    constructor(buildFor: Build, args?: BuildArguments, consoleChannel: "disabled" | "error" | "info" | "verbose" = "verbose") {
         super();
         this.buildFor = buildFor;
+
+        //Print to console if enabled
+        if (consoleChannel != "disabled") {
+            function printToConsole(channel: string, color: string, message: string) {
+                console.log(`\x1b[${color}m[${channel}][${buildFor.name}][${new Date().toISOString()}] ${message}\x1b[0m`);
+            }
+
+            if (consoleChannel == "info" || consoleChannel == "verbose") {
+                this.on(BoardBuilder.begin, () => {
+                    printToConsole("INFO", "34", "Begin building");
+                });
+                this.on(BoardBuilder.complete, (success, failureReason) => {
+                    printToConsole("INFO", "32", `Build ${success ? "successful" : "failed"}`);
+                    console.log({ success, failureReason });
+                });
+                this.on(BoardBuilder.info, (info) => {
+                    printToConsole("INFO", "36", info);
+                });
+            }
+
+            if (consoleChannel == "error" || consoleChannel == "info" || consoleChannel == "verbose") {
+                this.on(BoardBuilder.error, (error) => {
+                    printToConsole("ERROR", "31", error);
+                });
+
+            }
+
+            if (consoleChannel == "verbose") {
+                this.on(BoardBuilder.verbose, (info) => {
+                    printToConsole("VERBOSE", "35", info);
+                });
+            }
+        }
 
         //Default the git repo to a folder called ardupilot in the working directory
         if (!this.buildFor.gitRepo?.remote && !this.buildFor.gitRepo?.local) {
@@ -191,22 +230,22 @@ export class BoardBuilder extends EventEmitter {
         if (ret.startsWith("./")) {
             ret = path.join(Utility.baseDirectory, ret);
         }
-        
+
         //Replace the build directory
         regEx = new RegExp(BuildLocation.buildFolder, "g");
-        if(ret.match(regEx)) {
+        if (ret.match(regEx)) {
             ret = ret.replace(regEx, this.buildLocation);
         }
 
         //Replace the ardupilot directory
         regEx = new RegExp(BuildLocation.ardupilotDirectory, "g");
-        if(ret.match(regEx)) {
+        if (ret.match(regEx)) {
             ret = ret.replace(regEx, this.ardupilotDirectory);
         }
 
         //Replace the board name
         regEx = new RegExp(BuildLocation.boardName, "g");
-        if(ret.match(regEx)) {
+        if (ret.match(regEx)) {
             ret = ret.replace(regEx, this.buildFor.board.board);
         }
 
@@ -218,7 +257,7 @@ export class BoardBuilder extends EventEmitter {
      * @param message The message
      */
     private info(message: string): void {
-        this.emit(BoardBuilder.info, message);
+        this.emit(BoardBuilder.info, message.replace(/\n$/, ""));
     }
 
     /**
@@ -226,7 +265,7 @@ export class BoardBuilder extends EventEmitter {
      * @param message The message
      */
     private error(message: string): void {
-        this.emit(BoardBuilder.error, message);
+        this.emit(BoardBuilder.error, message.replace(/\n$/, ""));
     }
 
     /**
@@ -234,7 +273,7 @@ export class BoardBuilder extends EventEmitter {
      * @param message The message
      */
     private verbose(message: string): void {
-        this.emit(BoardBuilder.verbose, message);
+        this.emit(BoardBuilder.verbose, message.replace(/\n$/, ""));
     }
 
     //Emit a begin event
@@ -387,7 +426,7 @@ export class BoardBuilder extends EventEmitter {
         //Add our LUA files
         for (const fileIndex in this.buildFor.lua.luaFiles) {
             const file = this.buildFor.lua.luaFiles[fileIndex];
-            const fileName = file.outputName || (Array.isArray(file.file) ? `output_${fileIndex}.lua` : file.file as string);
+            const fileName = file.outputName || (Array.isArray(file.file) ? `output_${fileIndex}.lua` : file.file?.substring(file.file?.lastIndexOf("/") || 0));
             const outputLocation = `${directories.scriptingDirectory}/${fileName}`;
             const writeStream: fs.WriteStream = fs.createWriteStream(outputLocation)
             this.info(`Creating LUA file at ${outputLocation}`);
