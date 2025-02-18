@@ -5,6 +5,7 @@ import * as fs from "fs";
 import { BuildArguments } from "./types/buildArguments";
 import { Build } from "./types/build";
 import EventEmitter from "events";
+import { BuildLocation } from "./types/buildLocation";
 
 export class BoardBuilder extends EventEmitter {
     /**
@@ -68,17 +69,16 @@ export class BoardBuilder extends EventEmitter {
             this.repoLocation = `${Utility.repoDirectory}/${this.repoName}`;
         }
         else if (this.buildFor.gitRepo?.local) {
-            this.repoLocation = this.buildFor.gitRepo.local.location;
-            if (this.repoLocation.startsWith("./")) {
-                this.repoLocation = path.join(Utility.baseDirectory, this.repoLocation);
-            }
+            const location = this.parseDirectory(this.buildFor.gitRepo.local.location);
+            if (!location) { throw "Local git repo location is not defined"; }
+            this.repoLocation = location;
         }
         else {
             throw "There is no repo remote or local defined, i don't have anything to build from!";
         }
 
         //If useBuildFolder is false use the repo location. Don't copy the repo into a build location
-        if (this.buildFor.gitRepo?.useBuildFolder != false) {
+        if (this.buildFor.useBuildFolder != false) {
             this.buildLocation = `${Utility.buildDirectory}/${this.name}/${this.repoName}`;
         }
         else {
@@ -90,6 +90,16 @@ export class BoardBuilder extends EventEmitter {
         if (!this.buildFor.gitRepo?.remote) { return `local_${Utility.removeSpecialCharacters(this.repoLocation)}`; }
         return `${Utility.removeSpecialCharacters(this.buildFor.gitRepo.remote.repo)}:${this.buildFor.gitRepo.remote.branch}`;
     }
+
+    private get binaryLocation(): string {
+        if (this.buildFor.binaryDirectory) {
+            const directory = this.parseDirectory(this.buildFor.binaryDirectory);
+            if (!directory) { throw "Binary directory is not defined"; }
+            return directory;
+        }
+        return `${this.ardupilotDirectory}/build/${this.buildFor.board.board}/bin`;
+    }
+
 
     get name(): string {
         return Utility.removeSpecialCharacters(this.buildFor.name || `${this.buildFor.board.friendlyName}-${this.buildFor.target}`);
@@ -103,12 +113,32 @@ export class BoardBuilder extends EventEmitter {
         return `git clone --recursive -b ${this.buildFor.gitRepo.remote.branch} ${this.buildFor.gitRepo.remote.repo} ${this.repoLocation}`;
     }
 
+    get ardupilotDirectory(): string {
+        if (this.buildFor.ardupilotDirectory) {
+            const directory = this.parseDirectory(this.buildFor.ardupilotDirectory);
+            if (!directory) { throw "Ardupilot directory is not defined"; }
+            return directory;
+        }
+        return this.buildLocation;
+    }
+
+    get wafDirectory(): string {
+        if (this.buildFor.wafDirectory) {
+            const directory = this.parseDirectory(this.buildFor.wafDirectory);
+            if (!directory) { throw "Waf directory is not defined"; }
+            return directory;
+        }
+        return this.buildLocation;
+    }
+
     get libDirectory(): string {
-        return `${this.buildLocation}/libraries`;
+        return `${this.ardupilotDirectory}/libraries`;
     }
 
     get hwDefDirectory(): string {
-        return `${this.buildLocation}${this.buildFor.board.hwDefDirectory}`;
+        const directory = this.parseDirectory(this.buildFor.board.hwDefDirectory);
+        if (!directory) { throw "HWDef directory is not defined"; }
+        return directory;
     }
 
     get hwDefFile(): string {
@@ -140,6 +170,43 @@ export class BoardBuilder extends EventEmitter {
             bindingsFile: `${libDirectory}/generator/bindings.desc`,
             scriptingDirectory: `${this.hwDefDirectory}/scripts`
         }
+    }
+
+    /**
+     * Parse a directory and replace any variables with their values
+     * @param directory The directory string
+     * @returns The actual directory
+     */
+    private parseDirectory(directory?: string): string | undefined {
+        if (!directory) { return; }
+
+        let ret = directory;
+        let regEx;
+
+        //Replace ./ with the base directory
+        if (ret.startsWith("./")) {
+            ret = path.join(Utility.baseDirectory, ret);
+        }
+        
+        //Replace the build directory
+        regEx = new RegExp(BuildLocation.buildFolder, "g");
+        if(ret.match(regEx)) {
+            ret = ret.replace(regEx, this.buildLocation);
+        }
+
+        //Replace the ardupilot directory
+        regEx = new RegExp(BuildLocation.ardupilotDirectory, "g");
+        if(ret.match(regEx)) {
+            ret = ret.replace(regEx, this.ardupilotDirectory);
+        }
+
+        //Replace the board name
+        regEx = new RegExp(BuildLocation.boardName, "g");
+        if(ret.match(regEx)) {
+            ret = ret.replace(regEx, this.buildFor.board.board);
+        }
+
+        return ret;
     }
 
     /**
@@ -215,7 +282,7 @@ export class BoardBuilder extends EventEmitter {
      * Copy the repo to the build directory
      */
     async copyRepo() {
-        if (this.buildFor.gitRepo?.useBuildFolder == false) { return; }
+        if (this.buildFor.useBuildFolder == false) { return; }
 
         return new Promise<void>((resolve, reject) => {
             this.info(`Copying repo from ${this.repoLocation} to ${this.buildLocation}`);
@@ -263,17 +330,19 @@ export class BoardBuilder extends EventEmitter {
         if (!luaBindings) { return; }
         this.info(`Processing LUA bindings file`);
 
+        const replaceFile = this.parseDirectory(luaBindings.replaceFile);
+
         //Should we remove everything in the bindings file
-        if (luaBindings.clear == true || luaBindings.replaceFile) {
+        if (luaBindings.clear == true || replaceFile) {
             this.verbose(`Removing file ${this.luaBindingsFile}`);
             if (fs.existsSync(this.luaBindingsFile)) { fs.unlinkSync(this.luaBindingsFile); }
             this.info(`Removed the lua bindings file`);
         }
 
         //Copy the desired hw def file into the directory
-        if (luaBindings.replaceFile) {
-            this.info(`Copied ${luaBindings.replaceFile} to ${this.luaBindingsFile}`);
-            fs.copyFileSync(luaBindings.replaceFile, this.luaBindingsFile);
+        if (replaceFile) {
+            this.info(`Copied ${replaceFile} to ${this.luaBindingsFile}`);
+            fs.copyFileSync(replaceFile, this.luaBindingsFile);
         }
 
         //Append any binding values
@@ -342,7 +411,7 @@ export class BoardBuilder extends EventEmitter {
                     file.helperFunctions.push(`function build_date() return '${dateStr}' end`);
                 }
                 if (file.injectMethods.gitSha) {
-                    let sha = await Utility.getGitSha(this.buildLocation);
+                    let sha = await Utility.getGitSha(this.ardupilotDirectory);
                     file.helperFunctions.push(`function application_sha() return '${sha}' end`);
                 }
             }
@@ -356,7 +425,9 @@ export class BoardBuilder extends EventEmitter {
 
             //Go through the file(s) and append add them to the output
             for (const currentFile of file.file) {
-                await inject(`File ${currentFile}`, fs.readFileSync(currentFile));
+                const currentFileLocation = this.parseDirectory(currentFile);
+                if (!currentFileLocation) { continue; }
+                await inject(`File ${currentFileLocation}`, fs.readFileSync(currentFileLocation));
             }
 
             //Ok! Done :)
@@ -375,7 +446,7 @@ export class BoardBuilder extends EventEmitter {
 
     //TODO: Currently not working
     async validateLUASyntax(file: string) {
-        const process = new Process("bash", ["-e"], this.buildLocation);
+        const process = new Process("bash", ["-e"], this.ardupilotDirectory);
         const command = `luacheck ${file} --config libraries/AP_Scripting/tests/luacheck.lua`;
         return new Promise<void>(async (resolve, reject) => {
             this.info(`Validating LUA syntax with ${command}`);
@@ -428,17 +499,19 @@ export class BoardBuilder extends EventEmitter {
         if (!hwDef) { return; }
         this.info(`Processing HWDef file`);
 
+        const replaceFile = this.parseDirectory(hwDef.replaceFile);
+
         //Should we remove everything in the HWDef file
-        if (hwDef.clear == true || hwDef.replaceFile) {
+        if (hwDef.clear == true || replaceFile) {
             this.verbose(`Removing file ${this.hwDefFile}`);
             if (fs.existsSync(this.hwDefFile)) { fs.unlinkSync(this.hwDefFile); }
             this.info(`Removed the HWDef file`);
         }
 
         //Copy the desired hw def file into the directory
-        if (hwDef.replaceFile) {
-            this.verbose(`Copied ${hwDef.replaceFile} to ${this.hwDefFile}`);
-            fs.copyFileSync(hwDef.replaceFile, this.hwDefFile);
+        if (replaceFile) {
+            this.verbose(`Copied ${replaceFile} to ${this.hwDefFile}`);
+            fs.copyFileSync(replaceFile, this.hwDefFile);
         }
 
         //Append any HWDef values
@@ -457,18 +530,20 @@ export class BoardBuilder extends EventEmitter {
     async processParameters() {
         const params = this.buildFor.parameter;
         if (!params) { return; }
-        this.info(`Processing the parameters`);;
+        this.info(`Processing the parameters`);
+
+        const replaceFile = this.parseDirectory(params.replaceFile);
 
         //Should we remove everything in the HWDef file
-        if (params.clear == true || params.replaceFile) {
+        if (params.clear == true || replaceFile) {
             this.verbose(`Removing file ${this.paramDefaultsFile}`);
             if (fs.existsSync(this.hwDefFile)) { fs.unlinkSync(this.paramDefaultsFile); }
         }
 
         //Copy the desired hw def file into the directory
-        if (params.replaceFile) {
-            this.verbose(`Copied ${params.replaceFile} to ${this.paramDefaultsFile}`);
-            fs.copyFileSync(params.replaceFile, this.paramDefaultsFile);
+        if (replaceFile) {
+            this.verbose(`Copied ${replaceFile} to ${this.paramDefaultsFile}`);
+            fs.copyFileSync(replaceFile, this.paramDefaultsFile);
         }
 
         //Append any extra param values
@@ -486,7 +561,7 @@ export class BoardBuilder extends EventEmitter {
      * Run the ArduPilot build process
      */
     async runBuild() {
-        const process = new Process("bash", ["-e"], this.buildLocation);
+        const process = new Process("bash", ["-e"], this.wafDirectory);
         return new Promise<void>(async (resolve, reject) => {
             this.info(`Begin building the firmware!`);
             process.on(ProcessEvent.data, (data: any) => {
@@ -551,17 +626,9 @@ export class BoardBuilder extends EventEmitter {
         });
     }
 
-    private get binaryLocation(): string {
-        return `${this.buildLocation}/build/${this.buildFor.board.board}/bin`;
-    }
-
     async copyBinaries() {
-        if (!this.buildFor.finalSteps?.copyBinaries) { return; }
-
-        let copyTo = this.buildFor.finalSteps.copyBinaries;
-        if (copyTo.startsWith("./")) {
-            copyTo = path.join(Utility.baseDirectory, copyTo);
-        }
+        const copyTo = this.parseDirectory(this.buildFor.finalSteps?.copyBinaries);
+        if (!copyTo) { return; }
 
         this.info(`Copying binaries from ${this.binaryLocation} to ${copyTo}`);
         if (fs.existsSync(copyTo)) { fs.rmSync(copyTo, { recursive: true }); }
@@ -573,7 +640,7 @@ export class BoardBuilder extends EventEmitter {
         return new Promise<void>(async (resolve, reject) => {
             if (!this.buildFor.finalSteps?.uploadToBoard) { return; }
 
-            const file = `${this.binaryLocation}/${this.buildFor.finalSteps.uploadToBoard.binary}`;
+            const file = this.parseDirectory(`${this.binaryLocation}/${this.buildFor.finalSteps.uploadToBoard.binary}`);
 
             let args: string[] = this.buildFor.finalSteps.uploadToBoard.extraParams || [];
             if (this.buildFor.finalSteps.uploadToBoard.uploadDest) {
@@ -588,7 +655,7 @@ export class BoardBuilder extends EventEmitter {
                 this.verbose(`Exited with code: ${code}`);
                 if (code == 0) { resolve(); } else { reject(`Upload failed with code ${code}`); }
             });
-            process?.execute(`python ${this.buildLocation}/Tools/scripts/uploader.py ${args.join(" ")} ${file}`);
+            process?.execute(`python ${this.ardupilotDirectory}/Tools/scripts/uploader.py ${args.join(" ")} ${file}`);
         });
     }
 

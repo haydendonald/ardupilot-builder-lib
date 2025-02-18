@@ -1,10 +1,16 @@
 import { Board } from "./board";
 import { Target } from "./target";
 import { LUAFile } from "./luaFile";
+
 export interface Build {
     name?: string; //The name of the build
     board: Board; //--board
     target: Target | string; //--target
+
+    useBuildFolder?: boolean; //Should we copy the repo into a temporary location to build from. Default true
+    ardupilotDirectory?: string; //Use a specific ardupilot directory. Default is to use the root of the repo
+    wafDirectory?: string; //Use a specific waf directory. Default is to use the root of the repo
+    binaryDirectory?: string; //Use a specific binary directory. Default is to use the ardupilot/build/[board]/bin directory
 
     //What to perform once the build has completed successfully
     finalSteps?: {
@@ -51,7 +57,6 @@ export interface Build {
         }
 
         reset?: boolean; //Should the git repo be reset before building. Default false
-        useBuildFolder?: boolean; //Should we copy the repo into a temporary location to build from. Default true
     }
 
     //Parameter options
