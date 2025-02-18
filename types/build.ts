@@ -86,4 +86,9 @@ export interface Build {
         replaceFile?: string; //Replace the HWDef file with another (The filename in the hwdef directory will not be this file, it will be named hwdef.dat)
         append?: string[]; //Append options to the HWDef file
     }
+
+    //Bootloader options
+    bootloader?: {
+        replaceFile?: string //The bootloader to use. Default is to use the default bootloader for the board
+    }
 }

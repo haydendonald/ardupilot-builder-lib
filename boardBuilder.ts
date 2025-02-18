@@ -558,6 +558,24 @@ export class BoardBuilder extends EventEmitter {
     }
 
     /**
+     * Process the bootloader
+     */
+    async processBootloader() {
+        const bootloader = this.buildFor.bootloader;
+        if (!bootloader) { return; }
+        this.info(`Processing the bootloader`);
+
+        const replaceFile = this.parseDirectory(bootloader.replaceFile);
+
+        //Replace the bootloader with a custom one
+        if (replaceFile) {
+            const bootloaderLocation = `${this.ardupilotDirectory}/Tools/bootloaders/${this.buildFor.board.board}_bl.bin`;
+            this.verbose(`Copied ${replaceFile} to ${bootloaderLocation}`);
+            fs.copyFileSync(replaceFile, bootloaderLocation);
+        }
+    }
+
+    /**
      * Run the ArduPilot build process
      */
     async runBuild() {
@@ -698,6 +716,7 @@ export class BoardBuilder extends EventEmitter {
             await this.processLUA();
             await this.processHWDef();
             await this.processParameters();
+            await this.processBootloader();
 
             //Ok run the build!
             await this.runBuild();
