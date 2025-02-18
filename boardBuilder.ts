@@ -145,6 +145,10 @@ export class BoardBuilder extends EventEmitter {
         return `${this.hwDefDirectory}/hwdef.dat`;
     }
 
+    get hwDefBootloaderFile(): string {
+        return `${this.hwDefDirectory}/hwdef-bl.dat`;
+    }
+
     get luaBindingsFile(): string {
         return `${this.libDirectory}/AP_Scripting/generator/description/bindings.desc`;
     }
@@ -525,6 +529,41 @@ export class BoardBuilder extends EventEmitter {
     }
 
     /**
+     * Process the HWDef file for the bootloader adding information that's required
+     */
+    async processHWDefBootloader() {
+        const hwDef = this.buildFor.hwDefBootloader;
+
+        if (!hwDef) { return; }
+        if (this.buildFor.buildBootloader != true) { return; }
+        this.info(`Processing HWDef file for the bootloader`);
+
+        const replaceFile = this.parseDirectory(hwDef.replaceFile);
+
+        //Should we remove everything in the HWDef file
+        if (hwDef.clear == true || replaceFile) {
+            this.verbose(`Removing file ${this.hwDefBootloaderFile}`);
+            if (fs.existsSync(this.hwDefBootloaderFile)) { fs.unlinkSync(this.hwDefBootloaderFile); }
+            this.info(`Removed the HWDef file`);
+        }
+
+        //Copy the desired hw def file into the directory
+        if (replaceFile) {
+            this.verbose(`Copied ${replaceFile} to ${this.hwDefBootloaderFile}`);
+            fs.copyFileSync(replaceFile, this.hwDefBootloaderFile);
+        }
+
+        //Append any HWDef values
+        if (hwDef.append) {
+            fs.appendFileSync(this.hwDefBootloaderFile, Buffer.from(`\n`));
+            for (let line of hwDef.append) {
+                this.info(`Adding "${line}" to the HWDef file`);
+                fs.appendFileSync(this.hwDefBootloaderFile, Buffer.from(`${line}\n`));
+            }
+        }
+    }
+
+    /**
      * Process the parameters file adding information that's required
      */
     async processParameters() {
@@ -613,6 +652,7 @@ export class BoardBuilder extends EventEmitter {
             if (this.buildFor?.buildOptions?.static) { configureParams.push("--static"); }
             if (this.buildFor?.buildOptions?.uploadDest) { configureParams.push(`--rsync-dest ${this.buildFor?.buildOptions?.uploadDest}`); }
             if (this.buildFor?.buildOptions?.debug) { configureParams.push("--debug"); }
+            if (this.buildFor?.buildBootloader == true) { configureParams.push("--bootloader"); }
             this.info(`Running configure with params: ${configureParams.join(" ")}`);
             await process?.executeWait(`./waf configure ${configureParams.join(" ")}`);
 
@@ -629,7 +669,7 @@ export class BoardBuilder extends EventEmitter {
 
             //Ok build it!
             this.info(`Running build for ${this.buildFor.target} with params: ${buildParams.join(",")}`);
-            await process?.executeWait(`./waf ${this.buildFor.target} ${buildParams.join(" ")}`);
+            await process?.executeWait(`./waf ${this.buildFor.buildBootloader ? "bootloader" : this.buildFor.target} ${buildParams.join(" ")}`);
 
             //Run any post build commands
             if (this.buildFor?.buildOptions?.postBuildCommands) {
@@ -715,6 +755,7 @@ export class BoardBuilder extends EventEmitter {
             await this.processLUABindings();
             await this.processLUA();
             await this.processHWDef();
+            await this.processHWDefBootloader();
             await this.processParameters();
             await this.processBootloader();
 

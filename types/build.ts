@@ -6,6 +6,7 @@ export interface Build {
     name?: string; //The name of the build
     board: Board; //--board
     target: Target | string; //--target
+    buildBootloader?: boolean; //--bootloader
 
     useBuildFolder?: boolean; //Should we copy the repo into a temporary location to build from. Default true
     ardupilotDirectory?: string; //Use a specific ardupilot directory. Default is to use the root of the repo
@@ -82,6 +83,13 @@ export interface Build {
 
     //HWDef options
     hwDef?: {
+        clear?: boolean; //Clear the HWDef file. Default false
+        replaceFile?: string; //Replace the HWDef file with another (The filename in the hwdef directory will not be this file, it will be named hwdef.dat)
+        append?: string[]; //Append options to the HWDef file
+    }
+
+    //HWDef_bl options
+    hwDefBootloader?: {
         clear?: boolean; //Clear the HWDef file. Default false
         replaceFile?: string; //Replace the HWDef file with another (The filename in the hwdef directory will not be this file, it will be named hwdef.dat)
         append?: string[]; //Append options to the HWDef file
