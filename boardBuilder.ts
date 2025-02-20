@@ -453,9 +453,10 @@ export class BoardBuilder extends EventEmitter {
                     let dateStr: string = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + date.getFullYear();
                     file.helperFunctions.push(`function build_date() return '${dateStr}' end`);
                 }
-                if (file.injectMethods.gitSha) {
+                if (file.injectMethods.gitSha || file.injectMethods.applicationSha) {
                     let sha = await Utility.getGitSha(this.ardupilotDirectory);
-                    file.helperFunctions.push(`function application_sha() return '${sha}' end`);
+                    if (file.injectMethods.gitSha) { file.helperFunctions.push(`function git_sha() return '${sha}' end`); }
+                    if (file.injectMethods.applicationSha) { file.helperFunctions.push(`function application_sha() return '${sha}' end`); }
                 }
             }
 
