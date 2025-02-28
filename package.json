@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node ./dist/generate.js && cp ./dist/boards.ts ./types/boards.ts && tsc",
     "examples:multipleBoardTypes": "node ./dist/examples/multipleBoardTypes.js",
     "examples:lua": "node ./dist/examples/lua.js"
   },

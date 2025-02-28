@@ -8,3 +8,5 @@ export enum Target {
     antennatracker = "antennatracker",
     AP_Periph = "AP_Periph"
 }
+
+export const targets = [Target.copter, Target.heli, Target.plane, Target.rover, Target.sub, Target.antennatracker, Target.AP_Periph];
