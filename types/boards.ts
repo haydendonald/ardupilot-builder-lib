@@ -1,24 +1,25 @@
 import { Board } from "./board";
+import { BuildLocation } from "./buildLocation";
 export class Boards {
     static CubeOrange: Board = {
         friendlyName: "CubeOrange",
         board: "CubeOrange",
-        hwDefDirectory: `/libraries/AP_HAL_ChibiOS/hwdef/CubeOrange`
+        hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CubeOrange`
     };
     static CubeOrangePlus: Board = {
         friendlyName: "CubeOrangePlus",
         board: "CubeOrangePlus",
-        hwDefDirectory: `/libraries/AP_HAL_ChibiOS/hwdef/CubeOrangePlus`
+        hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CubeOrangePlus`
     };
     static CubeNode: Board = {
         friendlyName: "CubeNode",
         board: "CubeNode",
-        hwDefDirectory: `/libraries/AP_HAL_ChibiOS/hwdef/CubeNode`
+        hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CubeNode`
     };
     static CubeNodeETH: Board = {
         friendlyName: "CubeNode ETH",
         board: "CubeNode-ETH",
-        hwDefDirectory: `/libraries/AP_HAL_ChibiOS/hwdef/CubeNode-ETH`
+        hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CubeNode-ETH`
     };
 
 
