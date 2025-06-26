@@ -83,7 +83,7 @@ export class MultiBuilder extends EventEmitter {
         //Print to console if enabled
         if (consoleChannel != "disabled") {
             function printToConsole(channel: string, color: string, message: string, builder: BoardBuilder) {
-                console.log(`\x1b[${color}m[${channel}][${builder.name}][${new Date().toISOString()}] ${message}\x1b[0m`);
+                console.log(`\x1b[${color}m[${channel}][${builder?.name || "MAIN"}][${new Date().toISOString()}] ${message}\x1b[0m`);
             }
 
             if (consoleChannel == "info" || consoleChannel == "verbose") {
