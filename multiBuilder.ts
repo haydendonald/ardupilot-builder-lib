@@ -21,6 +21,13 @@ export class MultiBuilder extends EventEmitter {
      */
     static error = "error";
     /**
+     * Warning log message event
+     * @param message The message
+     * @param scope What board builder this message came from. Undefined for this multi builder
+     * @event
+     */
+    static warn = "warn";
+    /**
      * Verbose log message event
      * @param message The message
      * @param scope What board builder this message came from. Undefined for this multi builder
@@ -75,6 +82,7 @@ export class MultiBuilder extends EventEmitter {
             builder.on(BoardBuilder.begin, () => this.begin(builder));
             builder.on(BoardBuilder.complete, (success, reason) => this.complete(success, reason, builder));
             builder.on(BoardBuilder.error, (error) => this.error(error, builder));
+            builder.on(BoardBuilder.warn, (warning) => this.warning(warning, builder));
             builder.on(BoardBuilder.info, (info) => this.info(info, builder));
             builder.on(BoardBuilder.verbose, (info) => this.verbose(info, builder));
         });
@@ -106,7 +114,10 @@ export class MultiBuilder extends EventEmitter {
                     if (builder) { return; }
                     printToConsole("ERROR", "31", error);
                 });
-
+                this.on(BoardBuilder.warn, (warning, builder) => {
+                    if (builder) { return; }
+                    printToConsole("WARN", "33", warning);
+                });
             }
 
             if (consoleChannel == "verbose") {
@@ -134,6 +145,15 @@ export class MultiBuilder extends EventEmitter {
      */
     private error(message: string, scope?: BoardBuilder): void {
         this.emit(MultiBuilder.error, message, scope);
+    }
+
+    /**
+     * Emit a warning message
+     * @param message The message
+     * @param scope The board builder this message came from. Leave undefined for this
+     */
+    private warning(message: string, scope?: BoardBuilder): void {
+        this.emit(MultiBuilder.warn, scope, message);
     }
 
     /**

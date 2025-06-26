@@ -15,6 +15,12 @@ export class BoardBuilder extends EventEmitter {
      */
     static info = "info";
     /**
+     * Warning log message event
+     * @param message The message
+     * @event
+     */
+    static warn = "warn";
+    /**
      * Error log message event
      * @param message The message
      * @event
@@ -84,7 +90,9 @@ export class BoardBuilder extends EventEmitter {
                 this.on(BoardBuilder.error, (error) => {
                     printToConsole("ERROR", "31", error);
                 });
-
+                this.on(BoardBuilder.warn, (warning) => {
+                    printToConsole("WARN", "33", warning);
+                });
             }
 
             if (consoleChannel == "verbose") {
@@ -266,6 +274,14 @@ export class BoardBuilder extends EventEmitter {
      */
     private error(message: string): void {
         this.emit(BoardBuilder.error, message.replace(/\n$/, ""));
+    }
+
+    /**
+     * Emit a warning message
+     * @param message The message
+     */
+    private warning(message: string): void {
+        this.emit(BoardBuilder.warn, message.replace(/\n$/, ""));
     }
 
     /**
