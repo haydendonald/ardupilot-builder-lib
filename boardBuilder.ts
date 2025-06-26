@@ -553,6 +553,21 @@ export class BoardBuilder extends EventEmitter {
                             this.info(`${lineNum++}: ${line}`);
                         }
                     }
+
+                    //Print a summary of the errors
+                    if (erroredLines.size > 0) {
+                        this.error(`LUA syntax validation failed with ${erroredLines.size} error(s)`);
+                        for (let [line, error] of erroredLines.entries()) {
+                            this.error(`Line ${line}: ${error}`);
+                        }
+                    }
+                    if (warningLines.size > 0) {
+                        this.warning(`LUA syntax validation had ${warningLines.size} warning(s)`);
+                        for (let [line, warning] of warningLines.entries()) {
+                            this.warning(`Line ${line}: ${warning}`);
+                        }
+                    }
+                    
                     reject(`Build process failed with code ${code} running ${process.lastWrite}`);
                 }
             });
