@@ -6,6 +6,5 @@ export interface LUAFile {
     injectMethods?: {
         buildDate?: boolean; //Inject a build_date() method into the LUA file
         gitSha?: boolean; //Inject a git_sha() method into the LUA file
-        applicationSha?: boolean; //Inject a application_sha() method into the LUA file
     }
 }

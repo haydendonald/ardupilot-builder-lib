@@ -472,7 +472,6 @@ export class BoardBuilder extends EventEmitter {
                 if (file.injectMethods.gitSha || file.injectMethods.applicationSha) {
                     let sha = await Utility.getGitSha(this.ardupilotDirectory);
                     if (file.injectMethods.gitSha) { file.helperFunctions.push(`function git_sha() return '${sha}' end`); }
-                    if (file.injectMethods.applicationSha) { file.helperFunctions.push(`function application_sha() return '${sha}' end`); }
                 }
             }
 
