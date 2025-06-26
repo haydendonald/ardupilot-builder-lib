@@ -59,6 +59,10 @@ export class MultiBuilder extends EventEmitter {
     private builders: BoardBuilder[];
     private process: Process | undefined;
 
+    get builds(): BoardBuilder[] {
+        return this.builders;
+    }
+
     /**
      * Constructor
      * @param builders The builders to use
