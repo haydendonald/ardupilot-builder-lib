@@ -567,8 +567,14 @@ export class BoardBuilder extends EventEmitter {
                             this.warning(`Line ${line}: ${warning}`);
                         }
                     }
-                    
-                    reject(`Build process failed with code ${code} running ${process.lastWrite}`);
+
+                    //If there are any errors stop
+                    if (erroredLines.size > 0) {
+                        reject(`Build process failed with code ${code} running ${process.lastWrite}`);
+                    }
+                    else {
+                        resolve();
+                    }
                 }
             });
 
