@@ -38,10 +38,20 @@ static ARKV6X: Board = {
             board: "ARKV6X",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/ARKV6X`
         };
+static ARKV6Xbdshot: Board = {
+            friendlyName: "ARKV6X-bdshot",
+            board: "ARKV6X-bdshot",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/ARKV6X-bdshot`
+        };
 static ARK_FPV: Board = {
             friendlyName: "ARK_FPV",
             board: "ARK_FPV",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/ARK_FPV`
+        };
+static ATOMRCF405NAVIDeluxe: Board = {
+            friendlyName: "ATOMRCF405NAVI-Deluxe",
+            board: "ATOMRCF405NAVI-Deluxe",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/ATOMRCF405NAVI-Deluxe`
         };
 static AirvoluteDCS2: Board = {
             friendlyName: "Airvolute-DCS2",
@@ -72,6 +82,16 @@ static BETAFPVF405I2C: Board = {
             friendlyName: "BETAFPV-F405-I2C",
             board: "BETAFPV-F405-I2C",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/BETAFPV-F405-I2C`
+        };
+static BROTHERHOBBYF405v3: Board = {
+            friendlyName: "BROTHERHOBBYF405v3",
+            board: "BROTHERHOBBYF405v3",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/BROTHERHOBBYF405v3`
+        };
+static BROTHERHOBBYH743: Board = {
+            friendlyName: "BROTHERHOBBYH743",
+            board: "BROTHERHOBBYH743",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/BROTHERHOBBYH743`
         };
 static BeastF7: Board = {
             friendlyName: "BeastF7",
@@ -118,6 +138,11 @@ static BlitzWingH743: Board = {
             board: "BlitzWingH743",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/BlitzWingH743`
         };
+static BrahmaF4: Board = {
+            friendlyName: "BrahmaF4",
+            board: "BrahmaF4",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/BrahmaF4`
+        };
 static CBUH7LCStamp: Board = {
             friendlyName: "CBU-H7-LC-Stamp",
             board: "CBU-H7-LC-Stamp",
@@ -127,6 +152,16 @@ static CBUH7Stamp: Board = {
             friendlyName: "CBU-H7-Stamp",
             board: "CBU-H7-Stamp",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CBU-H7-Stamp`
+        };
+static CORVON405V2_1: Board = {
+            friendlyName: "CORVON405V2_1",
+            board: "CORVON405V2_1",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CORVON405V2_1`
+        };
+static CORVON743V1: Board = {
+            friendlyName: "CORVON743V1",
+            board: "CORVON743V1",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CORVON743V1`
         };
 static CSKY405: Board = {
             friendlyName: "CSKY405",
@@ -262,6 +297,11 @@ static CubeYellowbdshot: Board = {
             friendlyName: "CubeYellow-bdshot",
             board: "CubeYellow-bdshot",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CubeYellow-bdshot`
+        };
+static DAKEFPVF405: Board = {
+            friendlyName: "DAKEFPVF405",
+            board: "DAKEFPVF405",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/DAKEFPVF405`
         };
 static DevEBoxH7v2: Board = {
             friendlyName: "DevEBoxH7v2",
@@ -403,6 +443,11 @@ static JHEMCUH743HD: Board = {
             board: "JHEMCU-H743HD",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/JHEMCU-H743HD`
         };
+static JHEMCUF405PRO: Board = {
+            friendlyName: "JHEMCUF405PRO",
+            board: "JHEMCUF405PRO",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/JHEMCUF405PRO`
+        };
 static JHEM_JHEF405: Board = {
             friendlyName: "JHEM_JHEF405",
             board: "JHEM_JHEF405",
@@ -472,6 +517,11 @@ static LongBowF405WING: Board = {
             friendlyName: "LongBowF405WING",
             board: "LongBowF405WING",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/LongBowF405WING`
+        };
+static LumenierLUXF765NDAA: Board = {
+            friendlyName: "LumenierLUXF765-NDAA",
+            board: "LumenierLUXF765-NDAA",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/LumenierLUXF765-NDAA`
         };
 static MFTSEMA100: Board = {
             friendlyName: "MFT-SEMA100",
@@ -598,6 +648,16 @@ static MicoAir743v2: Board = {
             board: "MicoAir743v2",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/MicoAir743v2`
         };
+static NarinFCH5: Board = {
+            friendlyName: "NarinFC-H5",
+            board: "NarinFC-H5",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/NarinFC-H5`
+        };
+static NarinFCH7: Board = {
+            friendlyName: "NarinFC-H7",
+            board: "NarinFC-H7",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/NarinFC-H7`
+        };
 static NxtPX4v2: Board = {
             friendlyName: "NxtPX4v2",
             board: "NxtPX4v2",
@@ -607,6 +667,11 @@ static OMNIBUSF7V2: Board = {
             friendlyName: "OMNIBUSF7V2",
             board: "OMNIBUSF7V2",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/OMNIBUSF7V2`
+        };
+static ORBITH743: Board = {
+            friendlyName: "ORBITH743",
+            board: "ORBITH743",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/ORBITH743`
         };
 static OmnibusNanoV6: Board = {
             friendlyName: "OmnibusNanoV6",
@@ -683,10 +748,10 @@ static PixSurveyA1IND: Board = {
             board: "PixSurveyA1-IND",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/PixSurveyA1-IND`
         };
-static PixSurveyA2: Board = {
-            friendlyName: "PixSurveyA2",
-            board: "PixSurveyA2",
-            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/PixSurveyA2`
+static PixSurveyA2IND: Board = {
+            friendlyName: "PixSurveyA2-IND",
+            board: "PixSurveyA2-IND",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/PixSurveyA2-IND`
         };
 static Pixhawk1: Board = {
             friendlyName: "Pixhawk1",
@@ -818,6 +883,16 @@ static SIYI_N7: Board = {
             board: "SIYI_N7",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SIYI_N7`
         };
+static SPEDIXF405: Board = {
+            friendlyName: "SPEDIXF405",
+            board: "SPEDIXF405",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SPEDIXF405`
+        };
+static SPEDIXH743: Board = {
+            friendlyName: "SPEDIXH743",
+            board: "SPEDIXH743",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SPEDIXH743`
+        };
 static SPRacingH7: Board = {
             friendlyName: "SPRacingH7",
             board: "SPRacingH7",
@@ -832,6 +907,11 @@ static SULILGH7P1P2: Board = {
             friendlyName: "SULILGH7-P1-P2",
             board: "SULILGH7-P1-P2",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SULILGH7-P1-P2`
+        };
+static SequreH743: Board = {
+            friendlyName: "SequreH743",
+            board: "SequreH743",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SequreH743`
         };
 static SkySakuraH743: Board = {
             friendlyName: "SkySakuraH743",
@@ -858,6 +938,21 @@ static SpeedyBeeF405WING: Board = {
             board: "SpeedyBeeF405WING",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SpeedyBeeF405WING`
         };
+static StellarF4: Board = {
+            friendlyName: "StellarF4",
+            board: "StellarF4",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/StellarF4`
+        };
+static StellarF4V2: Board = {
+            friendlyName: "StellarF4V2",
+            board: "StellarF4V2",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/StellarF4V2`
+        };
+static StellarH7V2: Board = {
+            friendlyName: "StellarH7V2",
+            board: "StellarH7V2",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/StellarH7V2`
+        };
 static SuccexF4: Board = {
             friendlyName: "SuccexF4",
             board: "SuccexF4",
@@ -872,6 +967,11 @@ static TBS_LUCID_H7: Board = {
             friendlyName: "TBS_LUCID_H7",
             board: "TBS_LUCID_H7",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/TBS_LUCID_H7`
+        };
+static TBS_LUCID_H7_WING: Board = {
+            friendlyName: "TBS_LUCID_H7_WING",
+            board: "TBS_LUCID_H7_WING",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/TBS_LUCID_H7_WING`
         };
 static TBS_LUCID_PRO: Board = {
             friendlyName: "TBS_LUCID_PRO",
@@ -1158,6 +1258,11 @@ static omnibusf4v6: Board = {
             board: "omnibusf4v6",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/omnibusf4v6`
         };
+static pilotpi: Board = {
+            friendlyName: "pilotpi",
+            board: "pilotpi",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/pilotpi`
+        };
 static pocket: Board = {
             friendlyName: "pocket",
             board: "pocket",
@@ -1237,6 +1342,11 @@ static thepeachr1: Board = {
             friendlyName: "thepeach-r1",
             board: "thepeach-r1",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/thepeach-r1`
+        };
+static uavdevfcum982: Board = {
+            friendlyName: "uav-dev-fc-um982",
+            board: "uav-dev-fc-um982",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/uav-dev-fc-um982`
         };
 static vnav: Board = {
             friendlyName: "vnav",
@@ -1327,11 +1437,6 @@ static CarbonixF405: Board = {
             friendlyName: "CarbonixF405",
             board: "CarbonixF405",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CarbonixF405`
-        };
-static CarbonixL496: Board = {
-            friendlyName: "CarbonixL496",
-            board: "CarbonixL496",
-            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CarbonixL496`
         };
 static CubeBlackperiph: Board = {
             friendlyName: "CubeBlack-periph",
@@ -1452,6 +1557,11 @@ static MatekL431BattMon: Board = {
             friendlyName: "MatekL431-BattMon",
             board: "MatekL431-BattMon",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/MatekL431-BattMon`
+        };
+static MatekL431BatteryTag: Board = {
+            friendlyName: "MatekL431-BatteryTag",
+            board: "MatekL431-BatteryTag",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/MatekL431-BatteryTag`
         };
 static MatekL431DShot: Board = {
             friendlyName: "MatekL431-DShot",
@@ -1588,6 +1698,36 @@ static TBSL431Airspeed: Board = {
             board: "TBS-L431-Airspeed",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/TBS-L431-Airspeed`
         };
+static TBSL431BattMon: Board = {
+            friendlyName: "TBS-L431-BattMon",
+            board: "TBS-L431-BattMon",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/TBS-L431-BattMon`
+        };
+static TBSL431CurrMon: Board = {
+            friendlyName: "TBS-L431-CurrMon",
+            board: "TBS-L431-CurrMon",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/TBS-L431-CurrMon`
+        };
+static TBSL431PWM: Board = {
+            friendlyName: "TBS-L431-PWM",
+            board: "TBS-L431-PWM",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/TBS-L431-PWM`
+        };
+static VML431BatteryTag: Board = {
+            friendlyName: "VM-L431-BatteryTag",
+            board: "VM-L431-BatteryTag",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/VM-L431-BatteryTag`
+        };
+static VML431PeriphPico: Board = {
+            friendlyName: "VM-L431-Periph-Pico",
+            board: "VM-L431-Periph-Pico",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/VM-L431-Periph-Pico`
+        };
+static VML431SRVHub4CHP: Board = {
+            friendlyName: "VM-L431-SRV-Hub-4CHP",
+            board: "VM-L431-SRV-Hub-4CHP",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/VM-L431-SRV-Hub-4CHP`
+        };
 static ZubaxGNSS: Board = {
             friendlyName: "ZubaxGNSS",
             board: "ZubaxGNSS",
@@ -1707,5 +1847,20 @@ static swsparf407: Board = {
             friendlyName: "sw-spar-f407",
             board: "sw-spar-f407",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/sw-spar-f407`
+        };
+static uavdevauavg4: Board = {
+            friendlyName: "uav-dev-auav-g4",
+            board: "uav-dev-auav-g4",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/uav-dev-auav-g4`
+        };
+static uavdevpowermodule: Board = {
+            friendlyName: "uav-dev-powermodule",
+            board: "uav-dev-powermodule",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/uav-dev-powermodule`
+        };
+static uavdev_m10s: Board = {
+            friendlyName: "uav-dev_m10s",
+            board: "uav-dev_m10s",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/uav-dev_m10s`
         };
     }
