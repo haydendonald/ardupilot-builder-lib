@@ -15,6 +15,7 @@ export interface Build {
 
     //What to perform once the build has completed successfully
     finalSteps?: {
+        cleanDirectory?: boolean; //Delete the files inside the directory where the binaries are copied to. Default false
         copyBinaries?: string; //Copy the binaries to a folder. Path can be relative or absolute (./output or /output)
 
         //Upload the binaries to a board

@@ -727,9 +727,13 @@ export class BoardBuilder extends EventEmitter {
     async copyBinaries() {
         const copyTo = this.parseDirectory(this.buildFor.finalSteps?.copyBinaries);
         if (!copyTo) { return; }
+        const cleanDirectory = this.buildFor.finalSteps?.cleanDirectory || false;
 
         this.info(`Copying binaries from ${this.binaryLocation} to ${copyTo}`);
-        if (fs.existsSync(copyTo)) { fs.rmSync(copyTo, { recursive: true }); }
+
+        if (cleanDirectory) {
+            if (fs.existsSync(copyTo)) { fs.rmSync(copyTo, { recursive: true }); }
+        }
         if (!fs.existsSync(copyTo)) { fs.mkdirSync(copyTo, { recursive: true }); }
         fs.cpSync(`${this.binaryLocation}`, `${copyTo}`, { recursive: true });
     }
