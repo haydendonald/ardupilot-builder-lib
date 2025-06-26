@@ -18,6 +18,11 @@ static ACNSF405AIO: Board = {
             board: "ACNS-F405AIO",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/ACNS-F405AIO`
         };
+static AEDROXH7: Board = {
+            friendlyName: "AEDROXH7",
+            board: "AEDROXH7",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/AEDROXH7`
+        };
 static AEROFOXH7: Board = {
             friendlyName: "AEROFOX-H7",
             board: "AEROFOX-H7",
