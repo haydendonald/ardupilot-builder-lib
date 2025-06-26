@@ -478,7 +478,7 @@ export class BoardBuilder extends EventEmitter {
             writeStream.close();
 
             //Validate the LUA syntax to check for basic problems before we send it to the board
-            if (file.validateSyntax) {
+            if (file.validateSyntax != false) {
                 try { await this.validateLUASyntax(outputLocation); }
                 catch (e) {
                     this.error(`LUA validation error! ${e}. Will not continue with build`);
@@ -488,10 +488,9 @@ export class BoardBuilder extends EventEmitter {
         }
     }
 
-    //TODO: Currently not working
     async validateLUASyntax(file: string) {
         const process = new Process("bash", ["-e"], this.ardupilotDirectory);
-        const command = `luacheck ${file} --config libraries/AP_Scripting/tests/luacheck.lua`;
+        const command = `cd ${this.buildLocation} && luacheck ${file} --config libraries/AP_Scripting/tests/luacheck.lua`;
         return new Promise<void>(async (resolve, reject) => {
             this.info(`Validating LUA syntax with ${command}`);
 
