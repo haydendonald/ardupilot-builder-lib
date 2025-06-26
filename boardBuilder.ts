@@ -511,17 +511,25 @@ export class BoardBuilder extends EventEmitter {
             this.info(`Validating LUA syntax with ${command}`);
 
             let erroredLines = new Map<number, string>();
+            let warningLines = new Map<number, string>();
+            let mode: "error" | "warning";
             process.on(ProcessEvent.data, (data: any) => {
-                //Store the errored lines
-                data.toString().split("\n").filter((line: string) => { return line.includes(file + ":") }).forEach((line: string) => {
+                const stringData = data.toString();
+                const lines = stringData.split("\n");
+                if (lines.filter((line: string) => { return line.match(new RegExp(`Checking .* .* error`, "g")); }).length == 1) { mode = "error"; }
+                if (lines.filter((line: string) => { return line.match(new RegExp(`Checking .* .* warning`, "g")); }).length == 1) { mode = "warning"; }
+
+                //Store the error/warning lines
+                lines.filter((line: string) => { return line.includes(file + ":") }).forEach((line: string) => {
                     const parts = line.split(":");
                     const lineNumber = parseInt(parts[parts.length - 3]);
                     const index = parts[parts.length - 2];
                     const error = `${lineNumber}:${index} ${parts[parts.length - 1].slice(1)}`;
                     const previous = erroredLines.get(lineNumber);
-                    erroredLines.set(lineNumber, previous ? `${previous}, ${error}` : error);
+                    if (mode == "error") { erroredLines.set(lineNumber, previous ? `${previous}, ${error}` : error); }
+                    else if (mode == "warning") { warningLines.set(lineNumber, previous ? `${previous}, ${error}` : error); }
                 });
-                this.info(data.toString());
+                this.info(stringData);
             });
             process.on(ProcessEvent.error, (data: any) => { this.error(data.toString()); });
             process.on(ProcessEvent.close, (code: any) => {
@@ -535,6 +543,10 @@ export class BoardBuilder extends EventEmitter {
                     for (let line of fs.readFileSync(file).toString().split("\n")) {
                         if (erroredLines.has(lineNum)) {
                             this.error(`${lineNum}: ${line} >>ERROR>> ${erroredLines.get(lineNum)}`);
+                            lineNum++;
+                        }
+                        else if (warningLines.has(lineNum)) {
+                            this.warning(`${lineNum}: ${line} >>WARNING>> ${warningLines.get(lineNum)}`);
                             lineNum++;
                         }
                         else {
