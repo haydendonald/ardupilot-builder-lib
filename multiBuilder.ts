@@ -79,36 +79,40 @@ export class MultiBuilder extends EventEmitter {
             builder.on(BoardBuilder.verbose, (info) => this.verbose(info, builder));
         });
 
-
         //Print to console if enabled
         if (consoleChannel != "disabled") {
-            function printToConsole(channel: string, color: string, message: string, builder: BoardBuilder) {
-                console.log(`\x1b[${color}m[${channel}][${builder?.name || "MAIN"}][${new Date().toISOString()}] ${message}\x1b[0m`);
+            function printToConsole(channel: string, color: string, message: string) {
+                console.log(`\x1b[${color}m[${channel}][${new Date().toISOString()}] ${message}\x1b[0m`);
             }
 
             if (consoleChannel == "info" || consoleChannel == "verbose") {
                 this.on(BoardBuilder.begin, (builder) => {
-                    printToConsole("INFO", "34", "Begin building", builder);
+                    if (builder) { return; }
+                    printToConsole("INFO", "34", "Begin building");
                 });
                 this.on(BoardBuilder.complete, (success, failureReason, builder) => {
-                    printToConsole("INFO", "32", `Build ${success ? "successful" : "failed"}`, builder);
+                    if (builder) { return; }
+                    printToConsole("INFO", "32", `Build ${success ? "successful" : "failed"}`);
                     console.log({ success, failureReason, builder });
                 });
                 this.on(BoardBuilder.info, (info, builder) => {
-                    printToConsole("INFO", "36", info, builder);
+                    if (builder) { return; }
+                    printToConsole("INFO", "36", info);
                 });
             }
 
             if (consoleChannel == "error" || consoleChannel == "info" || consoleChannel == "verbose") {
                 this.on(BoardBuilder.error, (error, builder) => {
-                    printToConsole("ERROR", "31", error, builder);
+                    if (builder) { return; }
+                    printToConsole("ERROR", "31", error);
                 });
 
             }
 
             if (consoleChannel == "verbose") {
                 this.on(BoardBuilder.verbose, (info, builder) => {
-                    printToConsole("VERBOSE", "35", info, builder);
+                    if (builder) { return; }
+                    printToConsole("VERBOSE", "35", info);
                 });
             }
         }
