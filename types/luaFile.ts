@@ -5,6 +5,6 @@ export interface LUAFile {
     outputName?: string //Rename the lua file (output.lua)
     injectMethods?: {
         buildDate?: boolean; //Inject a build_date() method into the LUA file
-        gitSha?: boolean; //Inject a git_sha() method into the LUA file
+        ardupilotSha?: boolean; //Inject a ardupilot_sha() method into the LUA file
     }
 }

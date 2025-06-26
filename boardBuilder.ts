@@ -53,6 +53,7 @@ export class BoardBuilder extends EventEmitter {
     private buildFor: Build;
     private buildLocation: string;
     private repoLocation: string;
+    private _ardupilotSha?: string;
 
     buildSuccess?: boolean;
     buildError?: string;
@@ -221,6 +222,10 @@ export class BoardBuilder extends EventEmitter {
             bindingsFile: `${libDirectory}/generator/bindings.desc`,
             scriptingDirectory: `${this.hwDefDirectory}/scripts`
         }
+    }
+
+    get ardupilotSha(): string {
+        return this._ardupilotSha || "unknown";
     }
 
     /**
@@ -469,10 +474,7 @@ export class BoardBuilder extends EventEmitter {
                     let dateStr: string = ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '/' + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' + date.getFullYear();
                     file.helperFunctions.push(`function build_date() return '${dateStr}' end`);
                 }
-                if (file.injectMethods.gitSha || file.injectMethods.applicationSha) {
-                    let sha = await Utility.getGitSha(this.ardupilotDirectory);
-                    if (file.injectMethods.gitSha) { file.helperFunctions.push(`function git_sha() return '${sha}' end`); }
-                }
+                if (file.injectMethods.ardupilotSha) { file.helperFunctions.push(`function ardupilot_sha() return '${this.ardupilotSha}' end`); }
             }
 
             //Inject the helper functions at the top of the file
@@ -841,6 +843,9 @@ export class BoardBuilder extends EventEmitter {
             await this.downloadRepo();
             await this.copyRepo();
             await this.processGit();
+
+            //Get our Ardupilot SHA
+            this._ardupilotSha = await Utility.getGitSha(this.ardupilotDirectory);
 
             //Modify the build
             await this.processLUABindings();
