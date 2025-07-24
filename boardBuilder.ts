@@ -385,6 +385,10 @@ export class BoardBuilder extends EventEmitter {
             if (git?.reset == true) {
                 this.info(`Resetting git repository at ${this.buildLocation}`);
                 await process?.executeWait(`git reset --hard`);
+
+                //Update submodules
+                this.info(`Updating git submodules at ${this.buildLocation}`);
+                await process?.executeWait(`git submodule update --init --recursive`);
             }
 
             process?.exit();
