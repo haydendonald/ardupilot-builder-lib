@@ -6,5 +6,7 @@ export interface LUAFile {
     injectMethods?: {
         buildDate?: boolean; //Inject a build_date() method into the LUA file
         ardupilotSha?: boolean; //Inject a ardupilot_sha() method into the LUA file
+    },
+    copyOutput?: string; //Should we copy the LUA file generated to another location? Default is to not copy
     }
 }

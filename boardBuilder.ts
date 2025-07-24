@@ -504,6 +504,21 @@ export class BoardBuilder extends EventEmitter {
             //Ok! Done :)
             writeStream.close();
 
+            //Should we copy the output file?
+            if (file.copyOutput) {
+                const copyLocation = this.parseDirectory(file.copyOutput);
+                if (!copyLocation) {
+                    this.error(`Cannot copy LUA file to ${file.copyOutput} as it is not defined`);
+                    continue;
+                }
+                else {
+                    //Create the directory if it doesn't exist
+                    fs.mkdirSync(path.dirname(copyLocation), { recursive: true });
+                    fs.copyFileSync(outputLocation, copyLocation);
+                    this.info(`Copied LUA file to ${copyLocation}`);
+                }
+            }
+
             //Validate the LUA syntax to check for basic problems before we send it to the board
             if (file.validateSyntax != false) {
                 try { await this.validateLUASyntax(outputLocation); }
