@@ -375,6 +375,12 @@ export class BoardBuilder extends EventEmitter {
             process.on(ProcessEvent.error, (error: any) => { this.error(error.toString()); });
             process.on(ProcessEvent.close, (code: any) => { this.verbose(`Process exited with ${code}`); resolve(); });
 
+            //Checkout to a specific SHA if provided
+            if (git?.remote?.sha) {
+                this.info(`Checking out to SHA ${git.remote.sha}`);
+                await process?.executeWait(`git checkout ${git.remote.sha}`);
+            }
+
             //Reset git
             if (git?.reset == true) {
                 this.info(`Resetting git repository at ${this.buildLocation}`);

@@ -51,6 +51,7 @@ export interface Build {
         remote?: {
             repo: string;
             branch: string;
+            sha?: string; //The sha to checkout. If not provided, the latest commit on the branch will be used
         }
 
         //Use a local git repository
