@@ -494,6 +494,46 @@ export class BoardBuilder extends EventEmitter {
                 }
             }
 
+            //Add the MAVLink modules to the LUA file. Note: To access them use local mavlink_msgs = mavlink_msgs() instead of require() as require doesn't work here
+            if (file.MAVLinkModule?.includeMessages) {
+                this.info("Adding MAVLink messages to the LUA file");
+
+                //Generate the MAVLink messages
+                this.info(`Generating the MAVLink messages located in ${this.ardupilotDirectory}/modules/mavlink`);
+                const process = new Process("bash", ["-e"], this.ardupilotDirectory);
+                await process.executeWait(`python ${this.ardupilotDirectory}/modules/mavlink/pymavlink/tools/mavgen.py --lang Lua ${this.ardupilotDirectory}/modules/mavlink/message_definitions/v1.0/all.xml --out ${directories.libDirectory}/modules/MAVLink`, true);
+
+
+                const messages: Record<string, string> = {};
+                for (const message of file.MAVLinkModule?.includeMessages) {
+                    try {
+                        const contents = fs.readFileSync(`${directories.libDirectory}/modules/MAVLink/mavlink_msg_${message}.lua`).toString();
+                        messages["mavlink_msg_" + message] = `(function ()\n${contents}\nend)()\n`;
+                    }
+                    catch (e) { }
+                }
+
+                let toWrite = "local MAVLINK_MSGS = {}\n";
+                toWrite += "function get_mavlink_msg(message) return MAVLINK_MSGS[\"mavlink_msg_\" .. message] end\n";
+                for (const [message, contents] of Object.entries(messages)) {
+                    toWrite += `MAVLINK_MSGS["${message}"] = ${contents}\n`;
+                }
+                await inject(`MAVLink messages`, Buffer.from(toWrite));
+            }
+
+            //Add the mavlink_msgs.lua file
+            if (file.MAVLinkModule?.includeMavlink_msgs) {
+                //Add the required message files
+                this.info("Adding MAVLink messages to the LUA file");
+                try {
+                    const contents = fs.readFileSync(`${directories.libDirectory}/modules/MAVLink/mavlink_msgs.lua`).toString();
+                    let toWrite = `function mavlink_msgs()\n${contents}\nend\n`;
+                    toWrite = toWrite.replace(/require\("MAVLink\/mavlink_msg_/g, "get_mavlink_msg(\"");
+                    await inject("MAVLink messages", Buffer.from(toWrite));
+                }
+                catch (e) { this.error(`Failed to read mavlink_msgs.lua file: ${e}`); }
+            }
+
             //Go through the file(s) and append add them to the output
             for (const currentFile of file.file) {
                 const currentFileLocation = this.parseDirectory(currentFile);
