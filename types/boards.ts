@@ -58,6 +58,11 @@ static ATOMRCF405NAVIDeluxe: Board = {
             board: "ATOMRCF405NAVI-Deluxe",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/ATOMRCF405NAVI-Deluxe`
         };
+static AcctonGodwit_GA1: Board = {
+            friendlyName: "AcctonGodwit_GA1",
+            board: "AcctonGodwit_GA1",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/AcctonGodwit_GA1`
+        };
 static AirvoluteDCS2: Board = {
             friendlyName: "Airvolute-DCS2",
             board: "Airvolute-DCS2",
@@ -308,6 +313,16 @@ static DAKEFPVF405: Board = {
             board: "DAKEFPVF405",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/DAKEFPVF405`
         };
+static DAKEFPVH743: Board = {
+            friendlyName: "DAKEFPVH743",
+            board: "DAKEFPVH743",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/DAKEFPVH743`
+        };
+static DAKEFPVH743Pro: Board = {
+            friendlyName: "DAKEFPVH743Pro",
+            board: "DAKEFPVH743Pro",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/DAKEFPVH743Pro`
+        };
 static DevEBoxH7v2: Board = {
             friendlyName: "DevEBoxH7v2",
             board: "DevEBoxH7v2",
@@ -412,6 +427,11 @@ static GEPRC_TAKER_H743: Board = {
             friendlyName: "GEPRC_TAKER_H743",
             board: "GEPRC_TAKER_H743",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/GEPRC_TAKER_H743`
+        };
+static GreenSightUltraBlue: Board = {
+            friendlyName: "GreenSightUltraBlue",
+            board: "GreenSightUltraBlue",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/GreenSightUltraBlue`
         };
 static Here4FC: Board = {
             friendlyName: "Here4FC",
@@ -923,10 +943,20 @@ static SkySakuraH743: Board = {
             board: "SkySakuraH743",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SkySakuraH743`
         };
+static SkystarsF405v2: Board = {
+            friendlyName: "SkystarsF405v2",
+            board: "SkystarsF405v2",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SkystarsF405v2`
+        };
 static SkystarsH7HDbdshot: Board = {
             friendlyName: "SkystarsH7HD-bdshot",
             board: "SkystarsH7HD-bdshot",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SkystarsH7HD-bdshot`
+        };
+static SkystarsH7HDv2: Board = {
+            friendlyName: "SkystarsH7HDv2",
+            board: "SkystarsH7HDv2",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SkystarsH7HDv2`
         };
 static SpeedyBeeF405AIO: Board = {
             friendlyName: "SpeedyBeeF405AIO",
@@ -1097,11 +1127,6 @@ static dark: Board = {
             friendlyName: "dark",
             board: "dark",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/dark`
-        };
-static disco: Board = {
-            friendlyName: "disco",
-            board: "disco",
-            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/disco`
         };
 static edge: Board = {
             friendlyName: "edge",
@@ -1378,6 +1403,11 @@ static SwanK1: Board = {
             board: "Swan-K1",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/Swan-K1`
         };
+static disco: Board = {
+            friendlyName: "disco",
+            board: "disco",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/disco`
+        };
 static ARF407SmartBat: Board = {
             friendlyName: "AR-F407SmartBat",
             board: "AR-F407SmartBat",
@@ -1517,6 +1547,11 @@ static MFE_AirSpeed_CAN: Board = {
             friendlyName: "MFE_AirSpeed_CAN",
             board: "MFE_AirSpeed_CAN",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/MFE_AirSpeed_CAN`
+        };
+static MFE_PDB_CAN: Board = {
+            friendlyName: "MFE_PDB_CAN",
+            board: "MFE_PDB_CAN",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/MFE_PDB_CAN`
         };
 static MFE_POS3_CAN: Board = {
             friendlyName: "MFE_POS3_CAN",
