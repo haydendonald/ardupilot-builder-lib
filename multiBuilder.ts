@@ -1,6 +1,5 @@
 import { BoardBuilder } from "./boardBuilder";
 import { Process } from "./process";
-import { Board } from "./types/board";
 import { Build } from "./types/build";
 import { BuildArguments } from "./types/buildArguments";
 import EventEmitter from "events";
@@ -75,7 +74,7 @@ export class MultiBuilder extends EventEmitter {
         //If we were passed boards, create builders from them
         //@ts-ignore
         if (!builders[0].build) {
-            this.builders = builders.map((board) => new BoardBuilder(board as Build));
+            this.builders = builders.map((board) => new BoardBuilder(board as Build, args));
         }
         else {
             this.builders = builders as BoardBuilder[];
