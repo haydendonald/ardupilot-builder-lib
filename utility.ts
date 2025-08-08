@@ -43,4 +43,28 @@ export class Utility {
     static removeSpecialCharacters(input: string): string {
         return input.replace(/[/\\?\/%*:|"<>]/g, "").replace(/ /g, "_");
     }
+
+    /**
+     * Get a process argument from the command line as --argument=value
+     * @param argument The argument to get
+     * @returns The value of the argument or undefined if it doesn't exist
+     */
+    static getProcessArgument(argument: string): string | undefined {
+        const args = process.argv.filter((val) => { return val.includes(`--${argument}`) });
+        if (args.length > 0) {
+            const splitArg = args[0].split("=");
+            return splitArg.length > 1 ? splitArg[1] : undefined;
+        }
+        return undefined;
+    }
+
+    /**
+     * If the configuration file has --argument=true or --argument is passed in the command line, return true
+     * @param argument
+     * @return true if the argument is set to true or if the argument is passed in the command line, false is set to false, and undefined if not passed
+     */
+    static booleanProcessArgument(argument: string): boolean | undefined {
+        if (process.argv.includes(`--${argument}=false`)) { return false; }
+        return process.argv.includes(`--${argument}`) || process.argv.includes(`--${argument}=true`) ? true : undefined;
+    }
 }

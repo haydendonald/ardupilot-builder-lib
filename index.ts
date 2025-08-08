@@ -1,7 +1,7 @@
 export { Board } from "./types/board"
 export { Boards } from "./types/boards"
 export { Build } from "./types/build"
-export { BuildArguments } from "./types/buildArguments"
+export { BuildArguments, BuildArgumentsFromArgs } from "./types/buildArguments"
 export { LUAFile } from "./types/luaFile"
 export { Target } from "./types/target"
 export { BoardBuilder } from "./boardBuilder"

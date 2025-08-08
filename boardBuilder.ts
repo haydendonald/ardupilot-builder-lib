@@ -6,6 +6,7 @@ import { BuildArguments } from "./types/buildArguments";
 import { Build } from "./types/build";
 import EventEmitter from "events";
 import { BuildLocation } from "./types/buildLocation";
+import { DefaultBinaries } from "./types/target";
 
 export class BoardBuilder extends EventEmitter {
     /**
@@ -68,6 +69,94 @@ export class BoardBuilder extends EventEmitter {
         super();
         this.buildFor = buildFor;
 
+        //Default the git repo to a folder called ardupilot in the working directory
+        if (!this.buildFor.gitRepo?.remote && !this.buildFor.gitRepo?.local) {
+            this.buildFor.gitRepo = {
+                local: {
+                    location: "./ardupilot"
+                }
+            }
+        }
+
+        //Set our locations based on the config
+        if (this.buildFor.gitRepo?.remote) {
+            this.repoLocation = `${Utility.repoDirectory}/${this.repoName}`;
+        }
+        else if (this.buildFor.gitRepo?.local) {
+            const location = this.parseDirectory(this.buildFor.gitRepo.local.location);
+            if (!location) { throw "Local git repo location is not defined"; }
+            this.repoLocation = location;
+        }
+        else {
+            throw "There is no repo remote or local defined, i don't have anything to build from!";
+        }
+
+        //If useBuildFolder is false use the repo location. Don't copy the repo into a build location
+        if (this.buildFor.useBuildFolder != false) {
+            this.buildLocation = `${Utility.buildDirectory}/${this.name}/${this.repoName}`;
+        }
+        else {
+            this.buildLocation = this.repoLocation;
+        }
+
+        //Replace based on the arguments passed in
+        if (args) {
+            if (args.buildBootloader !== undefined) { this.buildFor.buildBootloader = args.buildBootloader; }
+            if (args.resetRepo !== undefined && this.buildFor.gitRepo) { this.buildFor.gitRepo.reset = args.resetRepo; }
+            if (args.enableLUA !== undefined) {
+                if (args.enableLUA == false) { this.buildFor.lua = { enableScripting: false }; }
+                else {
+                    if (this.buildFor.lua == undefined) { this.buildFor.lua = {}; }
+                    this.buildFor.lua.enableScripting = true;
+                }
+            }
+
+            if (args.uploadToBoard !== undefined) {
+                if (this.buildFor.finalSteps == undefined) { this.buildFor.finalSteps = {}; }
+                if (args.uploadToBoard == true) {
+                    this.buildFor.finalSteps.uploadToBoard = { binary: this.binaryDirectory + "/" + DefaultBinaries(this.buildFor.target).apj };
+                }
+                else if (typeof args.uploadToBoard != "boolean") {
+                    this.buildFor.finalSteps.uploadToBoard = {
+                        uploadDest: args.uploadToBoard?.uploadDest,
+                        binary: args.uploadToBoard?.binary || this.binaryDirectory + "/" + DefaultBinaries(this.buildFor.target).apj,
+                        extraParams: args.uploadToBoard?.extraParams
+                    };
+                }
+            }
+
+            if (args.openMAVProxy !== undefined) {
+                if (this.buildFor.finalSteps == undefined) { this.buildFor.finalSteps = {}; }
+                if (args.openMAVProxy == true) {
+                    this.buildFor.finalSteps.openMAVProxy = true;
+                }
+                else if (typeof args.openMAVProxy != "boolean") {
+                    this.buildFor.finalSteps.openMAVProxy = {
+                        master: args.openMAVProxy?.master,
+                        baudRate: args.openMAVProxy?.baudRate,
+                        extraParams: args.openMAVProxy?.extraParams
+                    };
+                }
+            }
+
+            if (args.parameters) {
+                if (!this.buildFor.parameter) { this.buildFor.parameter = {}; }
+                if (!this.buildFor.parameter.append) { this.buildFor.parameter.append = {}; }
+                for (const [key, value] of Object.entries(args.parameters)) {
+                    this.buildFor.parameter.append[key] = value;
+                }
+            }
+            if (args.hwDef) {
+                if (!this.buildFor.hwDef) { this.buildFor.hwDef = {}; }
+                if (!this.buildFor.hwDef.append) { this.buildFor.hwDef.append = []; }
+                for (const value of args.hwDef) {
+                    this.buildFor.hwDef.append.push(value);
+                }
+            }
+        }
+
+        console.log(this.buildFor)
+
         //Print to console if enabled
         if (consoleChannel != "disabled") {
             function printToConsole(channel: string, color: string, message: string) {
@@ -101,36 +190,6 @@ export class BoardBuilder extends EventEmitter {
                     printToConsole("VERBOSE", "35", info);
                 });
             }
-        }
-
-        //Default the git repo to a folder called ardupilot in the working directory
-        if (!this.buildFor.gitRepo?.remote && !this.buildFor.gitRepo?.local) {
-            this.buildFor.gitRepo = {
-                local: {
-                    location: "./ardupilot"
-                }
-            }
-        }
-
-        //Set our locations based on the config
-        if (this.buildFor.gitRepo?.remote) {
-            this.repoLocation = `${Utility.repoDirectory}/${this.repoName}`;
-        }
-        else if (this.buildFor.gitRepo?.local) {
-            const location = this.parseDirectory(this.buildFor.gitRepo.local.location);
-            if (!location) { throw "Local git repo location is not defined"; }
-            this.repoLocation = location;
-        }
-        else {
-            throw "There is no repo remote or local defined, i don't have anything to build from!";
-        }
-
-        //If useBuildFolder is false use the repo location. Don't copy the repo into a build location
-        if (this.buildFor.useBuildFolder != false) {
-            this.buildLocation = `${Utility.buildDirectory}/${this.name}/${this.repoName}`;
-        }
-        else {
-            this.buildLocation = this.repoLocation;
         }
     }
 
