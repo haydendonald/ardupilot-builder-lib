@@ -5,7 +5,7 @@ import { LUAFile } from "./luaFile";
 export interface Build {
     name?: string; //The name of the build
     board: Board; //--board
-    target: Target | string; //--target
+    target: Target; //--target
     buildBootloader?: boolean; //--bootloader
 
     useBuildFolder?: boolean; //Should we copy the repo into a temporary location to build from. Default true
