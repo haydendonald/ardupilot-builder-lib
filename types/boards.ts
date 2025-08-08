@@ -93,6 +93,11 @@ static BETAFPVF405I2C: Board = {
             board: "BETAFPV-F405-I2C",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/BETAFPV-F405-I2C`
         };
+static BOTWINGF405: Board = {
+            friendlyName: "BOTWINGF405",
+            board: "BOTWINGF405",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/BOTWINGF405`
+        };
 static BROTHERHOBBYF405v3: Board = {
             friendlyName: "BROTHERHOBBYF405v3",
             board: "BROTHERHOBBYF405v3",
@@ -1587,6 +1592,11 @@ static MatekL431APDTelem: Board = {
             friendlyName: "MatekL431-APDTelem",
             board: "MatekL431-APDTelem",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/MatekL431-APDTelem`
+        };
+static MatekL431AUAV: Board = {
+            friendlyName: "MatekL431-AUAV",
+            board: "MatekL431-AUAV",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/MatekL431-AUAV`
         };
 static MatekL431Airspeed: Board = {
             friendlyName: "MatekL431-Airspeed",
