@@ -139,7 +139,7 @@ export class BoardBuilder extends EventEmitter {
         return `${Utility.removeSpecialCharacters(this.buildFor.gitRepo.remote.repo)}:${this.buildFor.gitRepo.remote.branch}`;
     }
 
-    private get binaryLocation(): string {
+    private get binaryDirectory(): string {
         if (this.buildFor.binaryDirectory) {
             const directory = this.parseDirectory(this.buildFor.binaryDirectory);
             if (!directory) { throw "Binary directory is not defined"; }
@@ -843,20 +843,20 @@ export class BoardBuilder extends EventEmitter {
         if (!copyTo) { return; }
         const cleanDirectory = this.buildFor.finalSteps?.cleanDirectory || false;
 
-        this.info(`Copying binaries from ${this.binaryLocation} to ${copyTo}`);
+        this.info(`Copying binaries from ${this.binaryDirectory} to ${copyTo}`);
 
         if (cleanDirectory) {
             if (fs.existsSync(copyTo)) { fs.rmSync(copyTo, { recursive: true }); }
         }
         if (!fs.existsSync(copyTo)) { fs.mkdirSync(copyTo, { recursive: true }); }
-        fs.cpSync(`${this.binaryLocation}`, `${copyTo}`, { recursive: true });
+        fs.cpSync(`${this.binaryDirectory}`, `${copyTo}`, { recursive: true });
     }
 
     async uploadToBoard() {
         return new Promise<void>(async (resolve, reject) => {
             if (!this.buildFor.finalSteps?.uploadToBoard) { return; }
 
-            const file = this.parseDirectory(`${this.binaryLocation}/${this.buildFor.finalSteps.uploadToBoard.binary}`);
+            const file = this.parseDirectory(`${this.binaryDirectory}/${this.buildFor.finalSteps.uploadToBoard.binary}`);
 
             let args: string[] = this.buildFor.finalSteps.uploadToBoard.extraParams || [];
             if (this.buildFor.finalSteps.uploadToBoard.uploadDest) {
