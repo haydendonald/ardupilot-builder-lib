@@ -203,6 +203,16 @@ static CUAVPixhackv3: Board = {
             board: "CUAV-Pixhack-v3",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CUAV-Pixhack-v3`
         };
+static CUAVV6Xv2: Board = {
+            friendlyName: "CUAV-V6X-v2",
+            board: "CUAV-V6X-v2",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CUAV-V6X-v2`
+        };
+static CUAVX25EVO: Board = {
+            friendlyName: "CUAV-X25-EVO",
+            board: "CUAV-X25-EVO",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CUAV-X25-EVO`
+        };
 static CUAVX7: Board = {
             friendlyName: "CUAV-X7",
             board: "CUAV-X7",
@@ -478,6 +488,11 @@ static JHEMCUF405PRO: Board = {
             board: "JHEMCUF405PRO",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/JHEMCUF405PRO`
         };
+static JHEMCUF405WING: Board = {
+            friendlyName: "JHEMCUF405WING",
+            board: "JHEMCUF405WING",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/JHEMCUF405WING`
+        };
 static JHEM_JHEF405: Board = {
             friendlyName: "JHEM_JHEF405",
             board: "JHEM_JHEF405",
@@ -718,6 +733,11 @@ static OrqaF405Pro: Board = {
             board: "OrqaF405Pro",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/OrqaF405Pro`
         };
+static OrqaH743Pro: Board = {
+            friendlyName: "OrqaH743Pro",
+            board: "OrqaH743Pro",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/OrqaH743Pro`
+        };
 static PH4mini: Board = {
             friendlyName: "PH4-mini",
             board: "PH4-mini",
@@ -938,6 +958,11 @@ static SULILGH7P1P2: Board = {
             board: "SULILGH7-P1-P2",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SULILGH7-P1-P2`
         };
+static SVehicleE2: Board = {
+            friendlyName: "SVehicle-E2",
+            board: "SVehicle-E2",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SVehicle-E2`
+        };
 static SequreH743: Board = {
             friendlyName: "SequreH743",
             board: "SequreH743",
@@ -1058,6 +1083,11 @@ static XMAVAPH743v2: Board = {
             board: "X-MAV-AP-H743v2",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/X-MAV-AP-H743v2`
         };
+static YARIV6X: Board = {
+            friendlyName: "YARIV6X",
+            board: "YARIV6X",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/YARIV6X`
+        };
 static YJUAV_A6: Board = {
             friendlyName: "YJUAV_A6",
             board: "YJUAV_A6",
@@ -1147,6 +1177,56 @@ static erlebrain2: Board = {
             friendlyName: "erlebrain2",
             board: "erlebrain2",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/erlebrain2`
+        };
+static esp32buzz: Board = {
+            friendlyName: "esp32buzz",
+            board: "esp32buzz",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/esp32buzz`
+        };
+static esp32diy: Board = {
+            friendlyName: "esp32diy",
+            board: "esp32diy",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/esp32diy`
+        };
+static esp32empty: Board = {
+            friendlyName: "esp32empty",
+            board: "esp32empty",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/esp32empty`
+        };
+static esp32icarus: Board = {
+            friendlyName: "esp32icarus",
+            board: "esp32icarus",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/esp32icarus`
+        };
+static esp32imu_module_v11: Board = {
+            friendlyName: "esp32imu_module_v11",
+            board: "esp32imu_module_v11",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/esp32imu_module_v11`
+        };
+static esp32nick: Board = {
+            friendlyName: "esp32nick",
+            board: "esp32nick",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/esp32nick`
+        };
+static esp32s3devkit: Board = {
+            friendlyName: "esp32s3devkit",
+            board: "esp32s3devkit",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/esp32s3devkit`
+        };
+static esp32s3empty: Board = {
+            friendlyName: "esp32s3empty",
+            board: "esp32s3empty",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/esp32s3empty`
+        };
+static esp32s3m5stampfly: Board = {
+            friendlyName: "esp32s3m5stampfly",
+            board: "esp32s3m5stampfly",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/esp32s3m5stampfly`
+        };
+static esp32tomte76: Board = {
+            friendlyName: "esp32tomte76",
+            board: "esp32tomte76",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/esp32tomte76`
         };
 static fmuv2: Board = {
             friendlyName: "fmuv2",
