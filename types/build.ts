@@ -8,6 +8,7 @@ export interface Build {
     target: Target; //--target
     buildBootloader?: boolean; //--bootloader
 
+    baseDirectory?: string; //Where should the builder work from. Default is to use the directory where the script was ran
     useBuildFolder?: boolean; //Should we copy the repo into a temporary location to build from. Default true
     ardupilotDirectory?: string; //Use a specific ardupilot directory. Default is to use the root of the repo
     wafDirectory?: string; //Use a specific waf directory. Default is to use the root of the repo

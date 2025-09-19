@@ -80,7 +80,7 @@ export class BoardBuilder extends EventEmitter {
 
         //Set our locations based on the config
         if (this.buildFor.gitRepo?.remote) {
-            this.repoLocation = `${Utility.repoDirectory}/${this.repoName}`;
+            this.repoLocation = `${this.repoDirectory}/${this.repoName}`;
         }
         else if (this.buildFor.gitRepo?.local) {
             const location = this.parseDirectory(this.buildFor.gitRepo.local.location);
@@ -93,7 +93,7 @@ export class BoardBuilder extends EventEmitter {
 
         //If useBuildFolder is false use the repo location. Don't copy the repo into a build location
         if (this.buildFor.useBuildFolder != false) {
-            this.buildLocation = `${Utility.buildDirectory}/${this.name}/${this.repoName}`;
+            this.buildLocation = `${this.buildDirectory}/${this.name}/${this.repoName}`;
         }
         else {
             this.buildLocation = this.repoLocation;
@@ -207,6 +207,17 @@ export class BoardBuilder extends EventEmitter {
         return `${this.ardupilotDirectory}/build/${this.buildFor.board.board}/bin`;
     }
 
+    private get baseDirectory(): string {
+        return this.buildFor.baseDirectory || process.cwd();
+    }
+
+    private get repoDirectory(): string {
+        return path.join(this.baseDirectory, "repos");
+    }
+
+    private get buildDirectory(): string {
+        return path.join(this.baseDirectory, "build");
+    }
 
     get name(): string {
         return Utility.removeSpecialCharacters(this.buildFor.name || `${this.buildFor.board.friendlyName}-${this.buildFor.target}`);
@@ -300,7 +311,7 @@ export class BoardBuilder extends EventEmitter {
 
         //Replace ./ with the base directory
         if (ret.startsWith("./")) {
-            ret = path.join(Utility.baseDirectory, ret);
+            ret = path.join(this.baseDirectory, ret);
         }
 
         //Replace the build directory
