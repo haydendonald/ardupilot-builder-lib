@@ -46,3 +46,8 @@ This example will build firmware for a Cube Orange and will include a hello worl
 # Dependencies
 1. In general follow the requirements for building ArduPilot at [Building the Code](https://ardupilot.org/dev/docs/building-the-code.html)
 2. [luacheck](https://github.com/mpeterv/luacheck)
+
+# Future Goals
+1. LUA compiler only include global functions that are actually used
+2. Alert on duplicate global functions/variables
+3. Proper require system -- Use require "file" to tell the compiler to include a LUA file
