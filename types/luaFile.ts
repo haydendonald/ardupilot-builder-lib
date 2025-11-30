@@ -11,5 +11,9 @@ export interface LUAFile {
     MAVLinkModule?: {
         includeMessages?: string[]; //The message types to include typed as "COMMAND_ACK" for example. See AP_Scripting/modules/MAVLink/mavlink_msg_COMMAND_ACK.lua for example. They can be got using local msg = get_mavlink_msg("COMMAND_ACK") for example
         includeMavlink_msgs?: boolean; //Should we include the mavlink_msgs object. It can be created using local mavlink_msgs = mavlink_msgs() for example. Default is false
-    }
+    },
+    replaceVariables?: {
+        name: string;
+        value: string;
+    }[]; //Replace variables in the LUA file surrounded by --%%VARIABLE%%--. For example to replace --%%VERSION%%-- with 1.0.0
 }

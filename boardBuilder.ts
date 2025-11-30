@@ -540,6 +540,14 @@ export class BoardBuilder extends EventEmitter {
                 return new Promise<void>((resolve, reject) => {
                     const header: Buffer = Buffer.from(`--- ${comment}\n`);
                     const end: Buffer = Buffer.from("\n");
+
+                    //If we have any variables to replace insert them here
+                    if (file.replaceVariables) {
+                        for (const variable of file.replaceVariables) {
+                            const variableRegex = new RegExp(`--%%${variable.name}%%--`, 'g');
+                            data = Buffer.from(data.toString().replace(variableRegex, variable.value));
+                        }
+                    }
                     const buffer: Buffer = Buffer.concat([header, data, end]);
                     this.verbose(`Writing ${buffer.toString()} to LUA file`);
                     writeStream.write(buffer, (error: any) => { if (error) { reject(error); } else { resolve() } });
