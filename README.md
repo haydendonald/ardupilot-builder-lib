@@ -8,6 +8,8 @@ Through the use of the `MultiBuilder` class multiple `BoardBuilder` can be speci
 The default parameter file can be modified, adding/removing them, replacing it entirely. This results in default parameters being baked into the firmware.
 ### Baked in LUA files
 LUA files can be generated/added in the @ROMFS directory. This results in scripts that are baked into the firmware, no need for copying files to the device!
+### LUA cleaner
+Cleans the LUA file removing unused functions/variables as well as removing white space to make the LUA file smaller. This uses `luacheck` to verify.
 ### Custom LUA bindings
 The LUA bindings file can be modified. This is an advanced usage but it allows for custom bindings to exist without having to push them to master
 ### Custom HWDef
@@ -48,6 +50,5 @@ This example will build firmware for a Cube Orange and will include a hello worl
 2. [luacheck](https://github.com/mpeterv/luacheck)
 
 # Future Goals
-1. LUA compiler only include global functions that are actually used
-2. Alert on duplicate global functions/variables
-3. Proper require system -- Use require "file" to tell the compiler to include a LUA file
+1. Alert on duplicate global functions/variables
+2. Proper require system -- Use require "file" to tell the compiler to include a LUA file

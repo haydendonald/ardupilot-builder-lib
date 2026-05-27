@@ -15,6 +15,7 @@
         "multiBuilder.ts",
         "process.ts",
         "utility.ts",
-        "generate.ts"
+        "generate.ts",
+        "luaCleaner.ts"
     ]
 }

@@ -27,7 +27,8 @@ const build: Build = {
                 ],
                 file: `./examples/include/hello_world.lua`,
                 outputName: 'hello_world_generated.lua',
-                validateSyntax: true
+                validateSyntax: true,
+                cleanCode: true //Strip comments and unused declarations from the generated file
             }
         ]
     },

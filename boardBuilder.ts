@@ -7,6 +7,7 @@ import { Build } from "./types/build";
 import EventEmitter from "events";
 import { BuildLocation } from "./types/buildLocation";
 import { DefaultBinaries } from "./types/target";
+import { LuaCleaner } from "./luaCleaner";
 
 export class BoardBuilder extends EventEmitter {
     /**
@@ -620,7 +621,32 @@ export class BoardBuilder extends EventEmitter {
             }
 
             //Ok! Done :)
-            writeStream.close();
+            await new Promise<void>((resolve, reject) => {
+                writeStream.end((err: any) => { if (err) { reject(err); } else { resolve(); } });
+            });
+
+            //Run the cleaner if requested. This removes unused declarations and strips
+            //comments while preserving line numbers so any runtime crash trace still
+            //points at the corresponding source line.
+            if (file.cleanCode) {
+                const cleanOpts = typeof file.cleanCode === "object" ? file.cleanCode : {};
+                this.info(`Cleaning LUA file ${outputLocation}`);
+                const cleaner = new LuaCleaner(outputLocation, {
+                    cwd: this.buildLocation,
+                    luacheckConfig: "libraries/AP_Scripting/tests/luacheck.lua",
+                    logger: (m) => this.verbose(m),
+                    warner: (m) => this.warning(m),
+                    stripComments: cleanOpts.stripComments,
+                    maxIterations: cleanOpts.maxIterations,
+                    removeUnusedGlobals: cleanOpts.removeUnusedGlobals,
+                    entryPoints: cleanOpts.entryPoints,
+                });
+                try { await cleaner.clean(); }
+                catch (e) {
+                    this.error(`LUA cleaner failed! ${e}. Will not continue with build`);
+                    throw e;
+                }
+            }
 
             //Should we copy the output file?
             if (file.copyOutput) {

@@ -16,4 +16,10 @@ export interface LUAFile {
         name: string;
         value: string;
     }[]; //Replace variables in the LUA file surrounded by --%%VARIABLE%%--. For example to replace --%%VERSION%%-- with 1.0.0
+    cleanCode?: boolean | { //Run the LUA cleaner over the generated file to remove unused declarations and strip comments. Default false. Pass an object for finer control
+        stripComments?: boolean; //Strip comments from the generated file. Default true
+        maxIterations?: number; //Cap iterations of unused-removal passes. Default 50
+        removeUnusedGlobals?: boolean; //Also remove top-level global functions whose name is referenced nowhere else in the file. Default true
+        entryPoints?: string[]; //Global function names that must always be kept (e.g. callbacks the binding code looks up by string)
+    };
 }
