@@ -229,7 +229,11 @@ export class BoardBuilder extends EventEmitter {
             if (!this.buildFor.gitRepo) { this.buildFor.gitRepo = {}; }
             this.buildFor.gitRepo.remote = BoardBuilder.ardupilotRepo;
         }
-        return `git clone --recursive -b ${this.buildFor.gitRepo.remote.branch} ${this.buildFor.gitRepo.remote.repo} ${this.repoLocation}`;
+        // Shallow clone (main repo + submodules) to avoid fetching unnecessary history.
+        // Skip --depth 1 when a specific SHA is requested, since that commit may not be
+        // reachable from the branch tip in a shallow clone (git checkout <sha> would fail).
+        const shallow = this.buildFor.gitRepo.remote.sha ? "" : "--depth 1 --shallow-submodules ";
+        return `git clone ${shallow}--recursive -b ${this.buildFor.gitRepo.remote.branch} ${this.buildFor.gitRepo.remote.repo} ${this.repoLocation}`;
     }
 
     get ardupilotDirectory(): string {
