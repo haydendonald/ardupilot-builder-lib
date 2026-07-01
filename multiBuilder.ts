@@ -214,13 +214,18 @@ export class MultiBuilder extends EventEmitter {
         await Promise.all(downloaders.map((builder) => builder.downloadRepo()));
     }
 
-    async build(runAsync: boolean = true) {
+    async build(runAsync: boolean = true, buildOptions?: {
+        prepareRepo?: boolean,
+        generateBuild?: boolean,
+        buildFirmware?: boolean,
+        performFinalSteps?: boolean
+    }) {
         this.info("Begin build!");
         await this.downloadRepos();
         if (runAsync) {
             await Promise.all(this.builders.map((builder => {
                 return new Promise<void>(async (resolve) => {
-                    try { await builder.build(); }
+                    try { await builder.build(buildOptions); }
                     catch (e) { }
                     resolve();
                 });
@@ -228,7 +233,7 @@ export class MultiBuilder extends EventEmitter {
         }
         else {
             for (let builder of this.builders) {
-                try { await builder.build(); }
+                try { await builder.build(buildOptions); }
                 catch (e) { }
             }
         }

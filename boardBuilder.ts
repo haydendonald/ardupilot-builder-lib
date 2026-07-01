@@ -1008,31 +1008,49 @@ export class BoardBuilder extends EventEmitter {
         });
     }
 
-    async build() {
+    /**
+     * Build the board
+     * @param steps.prepareRepo Should we prepare the repo (download, copy, git reset). Default true
+     * @param steps.generateBuild Should we generate the build (process LUA, HWDef, parameters). Default true
+     * @param steps.buildFirmware Should we build the firmware. Default true
+     * @param steps.performFinalSteps Should we perform the final steps (copy binaries, upload to board, open MAVProxy). Default true
+     */
+    async build(steps?: {
+        prepareRepo?: boolean,
+        generateBuild?: boolean,
+        buildFirmware?: boolean,
+        performFinalSteps?: boolean
+    }) {
         this.begin();
         this.info(`Begin building!`);
         try {
             //Get the repository ready
-            await this.downloadRepo();
-            await this.copyRepo();
-            await this.processGit();
+            if (steps?.prepareRepo != false) {
+                await this.downloadRepo();
+                await this.copyRepo();
+                await this.processGit();
+            }
 
             //Get our Ardupilot SHA
             this._ardupilotSha = await Utility.getGitSha(this.ardupilotDirectory);
 
             //Modify the build
-            await this.processLUABindings();
-            await this.processLUA();
-            await this.processHWDef();
-            await this.processHWDefBootloader();
-            await this.processParameters();
-            await this.processBootloader();
+            if (steps?.generateBuild != false) {
+                await this.processLUABindings();
+                await this.processLUA();
+                await this.processHWDef();
+                await this.processHWDefBootloader();
+                await this.processParameters();
+                await this.processBootloader();
+            }
 
             //Ok run the build!
-            await this.runBuild();
+            if (steps?.buildFirmware != false) {
+                await this.runBuild();
+            }
 
             //Do any process build steps
-            if (this.buildFor.finalSteps) {
+            if (steps?.performFinalSteps != false && this.buildFor.finalSteps) {
                 if (this.buildFor.finalSteps.copyBinaries) {
                     await this.copyBinaries();
                 }
