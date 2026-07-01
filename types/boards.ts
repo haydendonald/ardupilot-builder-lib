@@ -203,6 +203,11 @@ static CORVON743V1: Board = {
             board: "CORVON743V1",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CORVON743V1`
         };
+static CORVON743V2: Board = {
+            friendlyName: "CORVON743V2",
+            board: "CORVON743V2",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/CORVON743V2`
+        };
 static CSKY405: Board = {
             friendlyName: "CSKY405",
             board: "CSKY405",
@@ -483,6 +488,11 @@ static GEPRC_TAKER_H743: Board = {
             board: "GEPRC_TAKER_H743",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/GEPRC_TAKER_H743`
         };
+static GPILOT_P1: Board = {
+            friendlyName: "GPILOT_P1",
+            board: "GPILOT_P1",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/GPILOT_P1`
+        };
 static GreenSightUltraBlue: Board = {
             friendlyName: "GreenSightUltraBlue",
             board: "GreenSightUltraBlue",
@@ -512,6 +522,11 @@ static JFB110: Board = {
             friendlyName: "JFB110",
             board: "JFB110",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/JFB110`
+        };
+static JFB200: Board = {
+            friendlyName: "JFB200",
+            board: "JFB200",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/JFB200`
         };
 static JHEMCUGSF405A: Board = {
             friendlyName: "JHEMCU-GSF405A",
@@ -1038,6 +1053,11 @@ static SITL_x86_64_linux_gnu: Board = {
             board: "SITL_x86_64_linux_gnu",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SITL_x86_64_linux_gnu`
         };
+static SIYIUniFC6PICO: Board = {
+            friendlyName: "SIYI-UniFC-6-PICO",
+            board: "SIYI-UniFC-6-PICO",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/SIYI-UniFC-6-PICO`
+        };
 static SIYI_N7: Board = {
             friendlyName: "SIYI_N7",
             board: "SIYI_N7",
@@ -1152,6 +1172,16 @@ static TBS_LUCID_H7: Board = {
             friendlyName: "TBS_LUCID_H7",
             board: "TBS_LUCID_H7",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/TBS_LUCID_H7`
+        };
+static TBS_LUCID_H7V3: Board = {
+            friendlyName: "TBS_LUCID_H7V3",
+            board: "TBS_LUCID_H7V3",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/TBS_LUCID_H7V3`
+        };
+static TBS_LUCID_H7_OEM: Board = {
+            friendlyName: "TBS_LUCID_H7_OEM",
+            board: "TBS_LUCID_H7_OEM",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/TBS_LUCID_H7_OEM`
         };
 static TBS_LUCID_H7_WING: Board = {
             friendlyName: "TBS_LUCID_H7_WING",
@@ -2027,6 +2057,11 @@ static VML431SRVHub4CHP: Board = {
             friendlyName: "VM-L431-SRV-Hub-4CHP",
             board: "VM-L431-SRV-Hub-4CHP",
             hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/VM-L431-SRV-Hub-4CHP`
+        };
+static YARI_GNSS: Board = {
+            friendlyName: "YARI_GNSS",
+            board: "YARI_GNSS",
+            hwDefDirectory: `${BuildLocation.buildFolder}/libraries/AP_HAL_ChibiOS/hwdef/YARI_GNSS`
         };
 static ZubaxGNSS: Board = {
             friendlyName: "ZubaxGNSS",
